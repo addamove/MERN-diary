@@ -1,10 +1,24 @@
 const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const mongoose = require('mongoose');
+
+const { Schema } = mongoose;
 
 const app = express();
 const port = process.env.PORT || 3000;
 const keys = require('./config/keys');
+
+mongoose.connect(keys.MONGO);
+
+const userSchema = Schema({
+  googleId: String,
+});
+
+mongoose.model('users', userSchema);
+
+const User = mongoose.model('users');
+new User({ googleId: 666 });
 
 passport.use(new GoogleStrategy(
   {
@@ -13,9 +27,8 @@ passport.use(new GoogleStrategy(
     callbackURL: 'http://localhost:3000/auth/google/callback',
     passReqToCallback: true,
   },
-  (request, accessToken, refreshToken, profile, done) => {
-    console.log(profile); // profile contains all the personal data returned
-  },
+  (request, accessToken, refreshToken, profile, done) =>
+    new User({ googleId: profile.id }).save(),
 ));
 
 app.get(
