@@ -37,5 +37,5 @@ app.get(
 );
 
 app.listen(port, () => {
-  console.log(`listening on pord ${port}`);
+  console.log(`listening on port ${port}`);
 });
