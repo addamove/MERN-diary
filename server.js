@@ -6,9 +6,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 const keys = require('./config/dev');
 
+require('./routes/authRoutes')(app);
 require('./models/User');
 require('./services/passport');
-require('./routes/authRoutes')(app, passport);
 
 app.use(cookieSession({
   name: 'session',
