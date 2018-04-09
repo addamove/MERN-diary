@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
 
 const { Schema } = mongoose;
 
@@ -27,9 +28,39 @@ passport.use(new GoogleStrategy(
     callbackURL: 'http://localhost:3000/auth/google/callback',
     passReqToCallback: true,
   },
-  (request, accessToken, refreshToken, profile, done) =>
-    new User({ googleId: profile.id }).save(),
+  (request, accessToken, refreshToken, profile, done) => {
+    User.findOne({ googleId: profile.id }).then((existingUser) => {
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+        new User({ googleId: profile.id }).save().then((user) => {
+          done(null, user);
+        });
+      }
+    });
+  },
 ));
+
+app.use(cookieSession({
+  name: 'session',
+  keys: [keys.cookieKey],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+}));
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login session
 
 app.get(
   '/auth/google',
@@ -40,6 +71,15 @@ app.get(
     ],
   }),
 );
+
+app.get('/api/get_user', (req, res) => {
+  res.send(req.user);
+});
+
+app.get('/api/logout', (req, res) => {
+  req.logout();
+  res.send(req.user);
+});
 
 app.get(
   '/auth/google/callback',
