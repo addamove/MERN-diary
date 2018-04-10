@@ -1,8 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description":
-    "In purpose of learning MERN stack, I will create the diary web application. I will implement things that I had learned from https://www.udemy.com/node-with-react-fullstack-web-development/.",
+  "description": "In purpose of learning MERN stack, I will create the diary web application. I will implement things that I had learned from https://www.udemy.com/node-with-react-fullstack-web-development/.",
   "main": "index.js",
   "scripts": {
     "server": "node ./node_modules/nodemon/bin/nodemon.js server.js",
@@ -23,10 +22,17 @@
     "concurrently": "^3.5.1",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.3",
+    "history": "^4.7.2",
     "mongoose": "^5.0.13",
     "nodemon": "^1.17.3",
     "passport": "^0.4.0",
-    "passport-google-oauth2": "^0.1.6"
+    "passport-google-oauth2": "^0.1.6",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
