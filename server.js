@@ -6,7 +6,6 @@ const app = express();
 const port = process.env.PORT || 5000;
 const keys = require('./config/dev');
 
-require('./routes/authRoutes')(app);
 require('./models/User');
 require('./services/passport');
 
@@ -20,6 +19,8 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login session
+
+require('./routes/authRoutes')(app);
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`);

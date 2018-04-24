@@ -20,10 +20,16 @@ module.exports = (app) => {
     res.send(req.user);
   });
 
+  app.get('/api/auth/success', (req, res) => {
+    console.log(req.user);
+
+    res.sendStatus(200);
+  });
+
   app.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      successRedirect: '/auth/success',
+      successRedirect: '/api/auth/success',
       failureRedirect: '/',
     }),
   );
