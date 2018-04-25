@@ -9,7 +9,6 @@ module.exports = (app) => {
     user.notes.push(req.body);
     const Data = await user.save();
     console.log(Data);
-
     res.sendStatus(200);
   });
 };

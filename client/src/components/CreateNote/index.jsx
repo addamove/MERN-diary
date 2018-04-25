@@ -22,20 +22,18 @@ class CreateNote extends Component {
     });
   }
 
-  handleClick() {
-    // Post to our API
-    axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
-
-    this.setState({
-      value: '',
-    });
-  }
-
   render() {
+    const handleClick = () => {
+      axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
+      this.setState({
+        value: '',
+      });
+    };
+
     return (
       <div>
         <Grid container spacing={24} justify="center">
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12} md={8}>
             <Card>
               <CardContent>
                 <TextField
@@ -51,14 +49,7 @@ class CreateNote extends Component {
             </Card>
             <br />
             <Grid container justify="flex-end">
-              <Button
-                onClick={() => {
-                  axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
-                }}
-                variant="raised"
-                size="medium"
-                color="primary"
-              >
+              <Button onClick={handleClick} variant="raised" size="medium" color="primary">
                 Save
               </Button>
             </Grid>

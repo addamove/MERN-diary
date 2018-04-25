@@ -1,14 +1,26 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
 import CreateNote from './components/CreateNote/';
+import Navigation from './components/Navigation/';
+import * as actions from './store/actions';
 
-const App = () => (
-  <div>
-    <br />
-    <br />
-    <br />
-    <CreateNote />
-  </div>
-);
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+  }
 
-export default App;
+  render() {
+    return (
+      <div>
+        <Navigation />
+        <br />
+        <br />
+        <br />
+        <CreateNote />
+      </div>
+    );
+  }
+}
+
+export default connect(null, actions)(App);
