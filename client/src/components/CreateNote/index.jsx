@@ -24,10 +24,12 @@ class CreateNote extends Component {
 
   render() {
     const handleClick = () => {
-      axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
-      this.setState({
-        value: '',
-      });
+      if (this.state.value.replace(/\s/g, '') !== '') {
+        axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
+        this.setState({
+          value: '',
+        });
+      }
     };
 
     return (

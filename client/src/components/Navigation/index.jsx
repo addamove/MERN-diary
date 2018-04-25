@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
+import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -22,29 +23,55 @@ const styles = {
   },
 };
 
-const Navigation = (props) => {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <Icon> home</Icon>
-          </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            Riary
-          </Typography>
+class Navigation extends Component {
+  renderContent() {
+    console.log(this.props.auth);
+    switch (this.props.auth) {
+      case null:
+        return null;
+      case false:
+        return (
           <Button href="/auth/google" color="inherit">
-            Login
+            Login With Google
           </Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-};
+        );
+      default:
+        return [
+          <Button color="inherit">All Notes</Button>,
+          <Button color="inherit">Export</Button>,
+          <Button href="/api/logout" color="inherit">
+            Logout
+          </Button>,
+        ];
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+              <Icon> home</Icon>
+            </IconButton>
+            <Typography variant="title" color="inherit" className={classes.flex}>
+              Riary
+            </Typography>
+            {this.renderContent()}
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
+}
 
 Navigation.propTypes = {
   classes: PropTypes.obj,
 };
 
-export default withStyles(styles)(Navigation);
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Navigation));
