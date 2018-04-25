@@ -1,22 +1,72 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
+import Button from 'material-ui/Button';
+import axios from 'axios';
 
-function CustomizedInputs(props) {
-  return (
-    <div>
-      <Grid container spacing={24} justify="center">
-        <Grid item xs={3}>
-          <Card>
-            <CardContent>
-              <TextField label="Create your note" multiline rows="12" fullWidth margin="normal" />
-            </CardContent>
-          </Card>
+class CreateNote extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({
+      value: event.target.value,
+    });
+  }
+
+  handleClick() {
+    // Post to our API
+    axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
+
+    this.setState({
+      value: '',
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid container spacing={24} justify="center">
+          <Grid item xs={12} sm={8}>
+            <Card>
+              <CardContent>
+                <TextField
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  label="Create your note"
+                  multiline
+                  rows="12"
+                  fullWidth
+                  margin="normal"
+                />
+              </CardContent>
+            </Card>
+            <br />
+            <Grid container justify="flex-end">
+              <Button
+                onClick={() => {
+                  axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
+                }}
+                variant="raised"
+                size="medium"
+                color="primary"
+              >
+                Save
+              </Button>
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
-export default CustomizedInputs;
+export default CreateNote;
