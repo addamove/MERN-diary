@@ -11,4 +11,12 @@ module.exports = (app) => {
     console.log(Data);
     res.sendStatus(200);
   });
+
+  app.get('/api/all_notes', requireLogin, async (req, res) => {
+    const user = await User.findOne({ _id: req.user._id });
+    const { notes } = user;
+
+    console.log(notes);
+    res.send(notes);
+  });
 };

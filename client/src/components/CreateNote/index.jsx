@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+
 import TextField from 'material-ui/TextField';
 import Grid from 'material-ui/Grid';
 import Card, { CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
+
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 class CreateNote extends Component {
   constructor(props) {
@@ -25,7 +28,10 @@ class CreateNote extends Component {
   render() {
     const handleClick = () => {
       if (this.state.value.replace(/\s/g, '') !== '') {
-        axios.post('/api/save_note', { text: this.state.value, date: Date.now() });
+        axios.post('/api/save_note', {
+          text: this.state.value,
+          date: dayjs().format('dddd DD - MM - YYYY '),
+        });
         this.setState({
           value: '',
         });

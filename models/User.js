@@ -7,7 +7,7 @@ mongoose.connect(keys.MONGO);
 
 const notes = new Schema({
   text: String,
-  date: Date,
+  date: String,
 });
 
 const userSchema = Schema({
