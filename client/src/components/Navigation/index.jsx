@@ -8,6 +8,7 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
+import LinkButton from '../LinkButton';
 
 const styles = {
   root: {
@@ -37,11 +38,18 @@ class Navigation extends Component {
         );
       default:
         return [
-          <Button color="inherit">All Notes</Button>,
-          <Button color="inherit">Export</Button>,
-          <Button href="/api/logout" color="inherit">
+          <LinkButton to="/create" key="112324" color="inherit">
+            Create Note
+          </LinkButton>,
+          <LinkButton to="/AllNotes" key="124" color="inherit">
+            All Notes
+          </LinkButton>,
+          <LinkButton key="3124" color="inherit">
+            Export
+          </LinkButton>,
+          <LinkButton key="12412" href="/api/logout" color="inherit">
             Logout
-          </Button>,
+          </LinkButton>,
         ];
     }
   }
