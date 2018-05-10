@@ -8,6 +8,8 @@ import Button from 'material-ui/Button';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+import TodaysNote from './TodaysNote';
+
 class CreateNote extends Component {
   constructor(props) {
     super(props);
@@ -42,6 +44,9 @@ class CreateNote extends Component {
       <div>
         <Grid container spacing={24} justify="center">
           <Grid item xs={12} md={8}>
+            <TodaysNote />
+          </Grid>
+          <Grid item xs={10} md={8}>
             <Card>
               <CardContent>
                 <TextField
